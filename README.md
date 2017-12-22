@@ -1,6 +1,6 @@
 # notes for life
 
-> It is still not recommended to use at this time becasue of some MVP decisions listed below
+> Please read and try to understand all of the deaign decisions listed below before you decide to use the application.
 
 This application allows syncing of notes written in Markdown format and stored in Dropbox
 into Dokuwiki (with active Markdown content plugin, of course).
