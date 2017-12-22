@@ -1,9 +1,9 @@
 # notes for life
 
-> Please read and try to understand all of the deaign decisions listed below before you decide to use the application.
+> Please read and try to understand all of the design decisions listed below before you decide to use the application.
 
-This application allows syncing of notes written in Markdown format and stored in Dropbox
-into Dokuwiki (with active Markdown content plugin, of course).
+This application allows syncing of notes stored in Dropbox
+into Dokuwiki.
 
 The reason why this application is made is because, according to me, no easy or friendly way
 exists that would allow day-to-day notes to be placed into Dokuwiki, but there are massive
