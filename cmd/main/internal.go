@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -18,21 +17,6 @@ func newHealthzController(startTime time.Time, version string) *healthzControlle
 		version:   version,
 		startTime: startTime,
 	}
-}
-
-func baducSetup(internalPort int, consulLocation string) {
-	if internalPort == -1 || consulLocation == "" {
-		log.Println("Not starting the internal healthz server")
-		return
-	}
-	registerOnConsul(internalPort, consulLocation)
-	startTime := time.Now()
-	go func() {
-		http.Handle("/healthz", newHealthzController(startTime, Version))
-		if err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", internalPort), nil); err != nil {
-			log.Fatalf("Internal handling server couldn't be started on port %d, err=%v", internalPort, err)
-		}
-	}()
 }
 
 func (w *healthzController) ServeHTTP(wr http.ResponseWriter, req *http.Request) {
