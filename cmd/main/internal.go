@@ -20,11 +20,12 @@ func newHealthzController(startTime time.Time, version string) *healthzControlle
 	}
 }
 
-func internalHandlers(internalPort int) {
-	if internalPort == -1 {
+func baducSetup(internalPort int, consulLocation string) {
+	if internalPort == -1 || consulLocation == "" {
 		log.Println("Not starting the internal healthz server")
 		return
 	}
+	registerOnConsul(internalPort, consulLocation)
 	startTime := time.Now()
 	go func() {
 		http.Handle("/healthz", newHealthzController(startTime, Version))

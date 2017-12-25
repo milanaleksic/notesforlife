@@ -27,7 +27,7 @@ func main() {
 	internalPort := flag.Int("internalPort", -1, "Internal port for healthz controller (default, -1, means not active)")
 	flag.Parse()
 
-	internalHandlers(*internalPort)
+	baducSetup(*internalPort)
 
 	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", *wikiLocation))
 	err := wiki.Login(*username, *password)
