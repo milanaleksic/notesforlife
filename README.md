@@ -1,5 +1,7 @@
 # notes for life
 
+[![Build Status](https://semaphoreci.com/api/v1/milanaleksic/notesforlife/branches/master/badge.svg)](https://semaphoreci.com/milanaleksic/notesforlife)
+
 > Please read and try to understand all of the design decisions listed below before you decide to use the application.
 
 This application allows syncing of notes stored in Dropbox
