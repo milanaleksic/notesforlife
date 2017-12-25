@@ -13,13 +13,21 @@ import (
 	"github.com/milanaleksic/notesforlife/dropbox"
 )
 
+var (
+	// Version is the current version of the program and should be filled in during the build
+	Version = "undefined"
+)
+
 func main() {
 	token := flag.String("token", "", "API token for Dropbox")
 	path := flag.String("path", "", "Path to track")
 	username := flag.String("username", "", "Dokuwiki username")
 	password := flag.String("password", "", "Dokuwiki password")
 	wikiLocation := flag.String("wikiLocation", "", "Dokuwiki location")
+	internalPort := flag.Int("internalPort", -1, "Internal port for healthz controller (default, -1, means not active)")
 	flag.Parse()
+
+	internalHandlers(*internalPort)
 
 	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", *wikiLocation))
 	err := wiki.Login(*username, *password)
