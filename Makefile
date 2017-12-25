@@ -5,8 +5,6 @@ MAIN_APP_DIR = cmd/main
 include gomakefiles/common.mk
 include gomakefiles/metalinter.mk
 include gomakefiles/upx.mk
-include gomakefiles/proto.mk
-include gomakefiles/wago.mk
 
 SOURCES := $(shell find $(SOURCEDIR) -name '*.go' \
 	-not -path './vendor/*')
@@ -20,5 +18,3 @@ include gomakefiles/semaphore.mk
 
 .PHONY: clean
 clean: clean_common
-	rm -rf $(MAIN_APP_DIR)/${APP_NAME}
-	rm -rf $(MAIN_APP_DIR)/${APP_NAME}.exe
