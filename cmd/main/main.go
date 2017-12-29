@@ -35,7 +35,7 @@ func main() {
 	}
 
 	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", *wikiLocation))
-	err := wiki.Login(*username, *password)
+	err = wiki.Login(*username, *password)
 	if err != nil {
 		log.Fatalf("Failed to login to wiki: %+v", err)
 	}
