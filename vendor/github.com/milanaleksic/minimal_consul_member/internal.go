@@ -1,4 +1,4 @@
-package main
+package minimal_consul_member
 
 import (
 	"encoding/json"

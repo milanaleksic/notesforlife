@@ -1,10 +1,10 @@
-package main
+package minimal_consul_member
 
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -32,11 +32,10 @@ type agentServiceCheck struct {
 	TLSSkipVerify     bool   `json:",omitempty"`
 }
 
-func registerOnConsul(internalPort int, consulLocation string) {
+func registerOnConsul(internalPort int, consulLocation string) (err error) {
 	if consulLocation == "" {
 		return
 	}
-	log.Printf("Registering on Consul on %s...", consulLocation)
 	registration, err := json.Marshal(&agentServiceRegistration{
 		Name: "notes_for_life",
 		Port: internalPort,
@@ -48,18 +47,19 @@ func registerOnConsul(internalPort int, consulLocation string) {
 		},
 	})
 	if err != nil {
-		log.Fatalf("Could not register to consul, err=%v", err)
+		return errors.New(fmt.Sprintf("could not register to consul, err=%v", err))
 	}
 	request, err := http.NewRequest("PUT", consulLocation+"/v1/agent/service/register", bytes.NewBuffer(registration))
 	if err != nil {
-		log.Fatalf("Could not register to consul, err=%v", err)
+		return errors.New(fmt.Sprintf("could not register to consul, err=%v", err))
 	}
 	client := http.DefaultClient
 	response, err := client.Do(request)
 	if err != nil {
-		log.Fatalf("Could not register to consul, err=%v", err)
+		return errors.New(fmt.Sprintf("could not register to consul, err=%v", err))
 	}
 	if response.StatusCode != 200 {
-		log.Fatalf("Could not register to consul, received status code=%v", response.StatusCode)
+		return errors.New(fmt.Sprintf("could not register to consul, received status code=%v", response.StatusCode))
 	}
+	return nil
 }

@@ -1860,8 +1860,7 @@ type ListFolderContinueAPIError struct {
 }
 
 func (dbx *apiImpl) ListFolderContinue(arg *ListFolderContinueArg) (res *ListFolderResult, err error) {
-	//cli := dbx.Client
-	cli := http.Client{}
+	cli := dbx.Client
 
 	dbx.Config.LogDebug("arg: %v", arg)
 	b, err := json.Marshal(arg)
@@ -2005,8 +2004,7 @@ type ListFolderLongpollAPIError struct {
 }
 
 func (dbx *apiImpl) ListFolderLongpoll(arg *ListFolderLongpollArg) (res *ListFolderLongpollResult, err error) {
-	//cli := dbx.Client
-	cli := http.Client{}
+	cli := dbx.Client
 
 	dbx.Config.LogDebug("arg: %v", arg)
 	b, err := json.Marshal(arg)

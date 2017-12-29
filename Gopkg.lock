@@ -20,6 +20,12 @@
   revision = "0826b98aaa29c0766956cb40d45cf7482a597671"
 
 [[projects]]
+  name = "github.com/milanaleksic/minimal_consul_member"
+  packages = ["."]
+  revision = "3e959bab85e7827ac6d43041d038f43c795f2fd7"
+  version = "0.0.1"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context","context/ctxhttp"]
@@ -40,6 +46,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "d398a6ac52302b265b3c6b7538ad18c5c215644c27f7535d7e4a1f316e3e3c06"
+  inputs-digest = "ae1ba907f5eae8334ccf5a1e067e2f3d6c2a8ea957d1aacd89181a90e810abcc"
   solver-name = "gps-cdcl"
   solver-version = 1

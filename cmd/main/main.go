@@ -4,13 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"regexp"
 	"strings"
-	"time"
 
+	"github.com/milanaleksic/minimal_consul_member"
 	"github.com/milanaleksic/notesforlife/dokuwiki"
 	"github.com/milanaleksic/notesforlife/dropbox"
 )
@@ -30,7 +29,10 @@ func main() {
 	consulLocation := flag.String("consulLocation", "", "Where is the Consul agent to register to (default is empty, meaning no registration)")
 	flag.Parse()
 
-	baducSetup(*internalPort, *consulLocation)
+	err := minimal_consul_member.Activate(*internalPort, *consulLocation, Version)
+	if err != nil {
+		log.Fatalf("Failed to login to activate BADUC integration: %+v", err)
+	}
 
 	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", *wikiLocation))
 	err := wiki.Login(*username, *password)
@@ -49,21 +51,6 @@ func main() {
 		wiki:          wiki,
 	}
 	app.mainLoop()
-}
-
-func baducSetup(internalPort int, consulLocation string) {
-	if internalPort == -1 || consulLocation == "" {
-		log.Println("Not starting the internal healthz server")
-		return
-	}
-	registerOnConsul(internalPort, consulLocation)
-	startTime := time.Now()
-	go func() {
-		http.Handle("/healthz", newHealthzController(startTime, Version))
-		if err := http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", internalPort), nil); err != nil {
-			log.Fatalf("Internal handling server couldn't be started on port %d, err=%v", internalPort, err)
-		}
-	}()
 }
 
 type mainApp struct {
