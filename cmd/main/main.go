@@ -66,10 +66,8 @@ func (m *mainApp) mainLoop() {
 				log.Printf("changed file: %+v, data length=%v", f.Name, len(f.Data))
 				m.updateFileInWiki(f)
 			}
-			break
 		case <-m.signalChannel:
 			os.Exit(0)
-			break
 		}
 	}
 }
