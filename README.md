@@ -25,10 +25,12 @@ On the page https://www.dropbox.com/developers/apps/create you will need to crea
 
 ### Dokuwiki
 
+You need to install some Markdown syntax plugin otherwise pushing Markdown contents
+into Dokuwiki will produce pages with garbled look.
+
 By default, Dokuwiki does not allow RPC connections/integrations. You need to do at least 
 these actions:
 
-- install some Markdown syntax plugin otherwise page contents will look garbled
 - have "fresh enough" Dokuwiki installation
 - allow XML-RPC
 - put user you wish to use to push contents into `remoteuser` option
