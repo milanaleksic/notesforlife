@@ -1,0 +1,12 @@
+[system]
+internalPort = 8862
+consulLocation = ""
+
+[dropbox]
+apiToken = ""
+path = ""
+
+[dokuwiki]
+url = ""
+username = ""
+password = ""

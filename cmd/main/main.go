@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -20,22 +19,13 @@ var (
 )
 
 func main() {
-	token := flag.String("token", "", "API token for Dropbox")
-	path := flag.String("path", "", "Path to track")
-	username := flag.String("username", "", "Dokuwiki username")
-	password := flag.String("password", "", "Dokuwiki password")
-	wikiLocation := flag.String("wikiLocation", "", "Dokuwiki location")
-	internalPort := flag.Int("internalPort", -1, "Internal port for healthz controller (default, -1, means not active)")
-	consulLocation := flag.String("consulLocation", "", "Where is the Consul agent to register to (default is empty, meaning no registration)")
-	flag.Parse()
-
-	err := minimal_consul_member.Activate(*internalPort, *consulLocation, Version)
+	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, Version)
 	if err != nil {
 		log.Fatalf("Failed to login to activate BADUC integration: %+v", err)
 	}
 
-	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", *wikiLocation))
-	err = wiki.Login(*username, *password)
+	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", config.Dokuwiki.URL))
+	err = wiki.Login(config.Dokuwiki.Username, config.Dokuwiki.Password)
 	if err != nil {
 		log.Fatalf("Failed to login to wiki: %+v", err)
 	}
@@ -43,7 +33,7 @@ func main() {
 	signalChannel := make(chan os.Signal, 1)
 	signal.Notify(signalChannel, os.Interrupt)
 
-	client := dropbox.NewClient(*token, *path)
+	client := dropbox.NewClient(config.Dropbox.APIToken, config.Dropbox.Path)
 	go client.Process()
 	app := &mainApp{
 		client:        client,

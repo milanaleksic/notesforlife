@@ -39,16 +39,15 @@ Please read in more details on [https://www.dokuwiki.org/devel:xmlrpc#get_it_wor
 
 The app is meant to be executed regularly or as a service on a real computer/server.
 
-You should run it like this:
+It is configured via a `notesforlife.toml` file which should contain:
 
-```bash
-notes_for_life \
-  -token DROPBOX_API_TOKEN
-  -path /Apps/Byword \
-  -username DOKUWIKI_USERNAME \
-  -password DOKUWIKI_PASSWORD \
-  -wikiLocation "https://www.mydokuwikisite.com"
-```
+- For Dropbox:
+  + API token generated via their website, as explained above
+  + path which should be watched for changes and pushed into Dokuwiki
+- For Dokuwiki:
+  + username
+  + password
+  + location (URL), e.g. "https://www.mydokuwikisite.com"
 
 ## Current state
 
