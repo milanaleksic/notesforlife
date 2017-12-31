@@ -21,7 +21,7 @@ var (
 func main() {
 	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, Version)
 	if err != nil {
-		log.Fatalf("Failed to login to activate BADUC integration: %+v", err)
+		log.Fatalf("Failed to activate BADUC integration: %+v", err)
 	}
 
 	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", config.Dokuwiki.URL))
