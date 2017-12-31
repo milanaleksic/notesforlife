@@ -1,5 +1,5 @@
 [system]
-internalPort = 8862
+internalPort = -1
 consulLocation = ""
 
 [dropbox]
