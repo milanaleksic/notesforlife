@@ -1,4 +1,5 @@
 [system]
+dryRun = false
 internalPort = -1
 consulLocation = ""
 

@@ -9,15 +9,17 @@ import (
 
 type Client struct {
 	client *xmlrpc.Client
+	dryRun bool
 }
 
-func NewClient(serverPath string) *Client {
+func NewClient(serverPath string, dryRun bool) *Client {
 	client, err := xmlrpc.NewClient(serverPath, nil)
 	if err != nil {
 		log.Fatalf("Could not create XML-RPC client: %+v", err)
 	}
 	return &Client{
 		client: client,
+		dryRun: dryRun,
 	}
 }
 
@@ -44,6 +46,10 @@ func (d *Client) GetPage(pagename string) (page string, err error) {
 }
 
 func (d *Client) PutPage(pagename, data string) (success bool, err error) {
-	err = d.client.Call("wiki.putPage", []interface{}{pagename, data}, &success)
+	if d.dryRun {
+		log.Printf("Since dry run is active, update of the page %s will not be done", pagename)
+	} else {
+		err = d.client.Call("wiki.putPage", []interface{}{pagename, data}, &success)
+	}
 	return
 }

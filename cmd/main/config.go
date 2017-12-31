@@ -10,6 +10,7 @@ import (
 
 var config struct {
 	System struct {
+		DryRun         bool
 		InternalPort   int
 		ConsulLocation string
 	}

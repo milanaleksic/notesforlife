@@ -24,7 +24,7 @@ func main() {
 		log.Fatalf("Failed to activate BADUC integration: %+v", err)
 	}
 
-	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", config.Dokuwiki.URL))
+	wiki := dokuwiki.NewClient(fmt.Sprintf("%s/lib/exe/xmlrpc.php", config.Dokuwiki.URL), config.System.DryRun)
 	err = wiki.Login(config.Dokuwiki.Username, config.Dokuwiki.Password)
 	if err != nil {
 		log.Fatalf("Failed to login to wiki: %+v", err)
