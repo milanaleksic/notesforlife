@@ -9,8 +9,10 @@ into Dokuwiki.
 
 The reason why this application is made is because, according to me, no easy or friendly way
 exists that would allow day-to-day notes to be placed into Dokuwiki, but there are massive
-number of very beautiful and easy-to-use Markdown mobile apps (I myself use *iA Writer* on my
-old Android tablet and *Byword* on my iPhone). 
+number of very beautiful and easy-to-use Markdown mobile apps. I myself use:
+- *https://stackedit.io* while on a laptop 
+- *iA Writer* on my old Android tablet and 
+- *Byword* on my iPhone. 
 
 This application connects to Dropbox via their (unofficial Go) API client and constantly polls 
 for changes. The changes are then pushed into Dokuwiki via XML-RPC. "Notes for life" will 
