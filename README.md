@@ -57,10 +57,9 @@ It is configured via a `notesforlife.toml` file which should contain:
 
 Some MVP design choices:
 - NFL will sync everything under a certain path in Dropbox (no extension filters), so be careful!
-- there is no support for env variables, configuration files
 - re-runs should be idempotent (no multiple writes of identical contents to Dokuwiki should happen)
   + but, you can still reorder links in the contents page
-- sync is only from the dropbox into Dokuwiki (Dropbox is thus the master data store),
+- sync is only from the Dropbox into Dokuwiki (Dropbox is thus the master data store),
 no binary sync is available
 - empty files will put the link into the Dokuwiki contents listing page, but no page 
 will be made since Dokuwiki does not allow empty pages.
