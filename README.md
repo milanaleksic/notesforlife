@@ -61,5 +61,7 @@ Some MVP design choices:
   + but, you can still reorder links in the contents page
 - sync is only from the Dropbox into Dokuwiki (Dropbox is thus the master data store),
 no binary sync is available
+- I use my own BADUC system to do a continuous deployment into my cluster at home, to turn off that
+integration just set `consulLocation` to an empty string otherwise you can't start the application
 - empty files will put the link into the Dokuwiki contents listing page, but no page 
 will be made since Dokuwiki does not allow empty pages.

@@ -83,6 +83,15 @@ func (m *mainApp) updateFileInWiki(f dropbox.ChangedFile) {
 		return
 	}
 	pagename := niceName(f.Name)
+	// use cache to avoid going to wiki every time, but don't trust it
+	if !strings.Contains(m.contentsData, fmt.Sprintf("(%s)", pagename)) {
+		contentsData, err := m.wiki.GetPage("dropbox_sync")
+		if err != nil {
+			log.Fatalf("Failed to get currently known pages from wiki: %+v", err)
+		} else {
+			m.contentsData = contentsData
+		}
+	}
 	if !strings.Contains(m.contentsData, fmt.Sprintf("(%s)", pagename)) {
 		log.Printf("Adding link to %s (%s) to the contents page", pagename, f.Name)
 		m.contentsData = m.contentsData + fmt.Sprintf("\n- [%s](%s)", f.Name, pagename)
