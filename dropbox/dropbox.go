@@ -87,7 +87,7 @@ func (c *Client) listCurrentItems() (items []*files.FileMetadata, cursor string)
 		}
 		hasMore = respContinue.HasMore
 		cursor = respContinue.Cursor
-		for _, item := range resp.Entries {
+		for _, item := range respContinue.Entries {
 			if _, ok := item.(*files.FileMetadata); !ok {
 				continue
 			}
@@ -101,7 +101,7 @@ func (c *Client) listCurrentItems() (items []*files.FileMetadata, cursor string)
 }
 
 func (c *Client) handleChangedFile(item *files.FileMetadata, initial bool) {
-	//log.Printf("File to be analyzed for contents: %+v, initial=%v", item, initial)
+	log.Printf("File to be analyzed for contents: %+v, initial=%v", item, initial)
 	downloadArg := files.NewDownloadArg(item.PathDisplay)
 	res, content, err := c.dbx.Download(downloadArg)
 	if err != nil {
