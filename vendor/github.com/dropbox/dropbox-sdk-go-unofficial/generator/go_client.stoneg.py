@@ -40,7 +40,7 @@ class GoClientBackend(CodeBackend):
             for route in namespace.routes:
                 self._generate_route(namespace, route)
             self.emit('// New returns a Client implementation for this namespace')
-            with self.block('func New(c dropbox.Config) *apiImpl'):
+            with self.block('func New(c dropbox.Config) Client'):
                 self.emit('ctx := apiImpl(dropbox.NewContext(c))')
                 self.emit('return &ctx')
 
@@ -48,6 +48,8 @@ class GoClientBackend(CodeBackend):
         req = fmt_type(route.arg_data_type, namespace)
         res = fmt_type(route.result_data_type, namespace, use_interface=True)
         fn = fmt_var(route.name)
+        if route.version != 1:
+            fn += 'V%d' % route.version
         style = route.attrs.get('style', 'rpc')
 
         arg = '' if is_void_type(route.arg_data_type) else 'arg {req}'
@@ -67,6 +69,8 @@ class GoClientBackend(CodeBackend):
     def _generate_route(self, namespace, route):
         out = self.emit
         fn = fmt_var(route.name)
+        if route.version != 1:
+            fn += 'V%d' % route.version
         err = fmt_type(route.error_data_type, namespace)
         out('//%sAPIError is an error-wrapper for the %s route' %
             (fn, route.name))
@@ -95,7 +99,7 @@ class GoClientBackend(CodeBackend):
                 ok_check += ' || resp.StatusCode == http.StatusPartialContent'
             with self.block(ok_check):
                 self._generate_result(route)
-            self._generate_error_handling(route)
+            self._generate_error_handling(namespace, route)
 
         out()
 
@@ -138,9 +142,12 @@ class GoClientBackend(CodeBackend):
                 out('headers["Dropbox-API-Select-User"] = dbx.Config.AsMemberID')
         out()
 
+        fn = route.name
+        if route.version != 1:
+            fn += '_v%d' % route.version
         authed = 'false' if auth == 'noauth' else 'true'
         out('req, err := (*dropbox.Context)(dbx).NewRequest("{}", "{}", {}, "{}", "{}", headers, {})'.format(
-            host, style, authed, namespace.name, route.name, body))
+            host, style, authed, namespace.name, fn, body))
         with self.block('if err != nil'):
             out('return')
 
@@ -172,9 +179,9 @@ class GoClientBackend(CodeBackend):
                 out('return')
             out()
 
-        out('dbx.Config.LogDebug("body: %v", body)')
+        out('dbx.Config.LogDebug("body: %s", body)')
 
-    def _generate_error_handling(self, route):
+    def _generate_error_handling(self, namespace, route):
         out = self.emit
         style = route.attrs.get('style', 'rpc')
         with self.block('if resp.StatusCode == http.StatusConflict'):
@@ -191,15 +198,11 @@ class GoClientBackend(CodeBackend):
                 out('return')
             out('err = apiError')
             out('return')
-        out('var apiError dropbox.APIError')
-        with self.block('if resp.StatusCode == http.StatusBadRequest'):
-            out('apiError.ErrorSummary = string(body)')
-            out('err = apiError')
+        auth_ns = "" if namespace.name == "auth" else "auth."
+        with self.block('err = %sHandleCommonAuthErrors(dbx.Config, resp, body);'
+                        'if err != nil' % auth_ns):
             out('return')
-        with self.block('err = json.Unmarshal(body, &apiError);'
-                        'if err != nil'):
-            out('return')
-        out('err = apiError')
+        out('err = dropbox.HandleCommonAPIErrors(dbx.Config, resp, body)')
         out('return')
 
     def _generate_result(self, route):

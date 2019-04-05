@@ -38,7 +38,7 @@ type CreateFileRequestArgs struct {
 	// relative to the app folder.
 	Destination string `json:"destination"`
 	// Deadline : The deadline for the file request. Deadlines can only be set
-	// by Pro and Business accounts.
+	// by Professional and Business accounts.
 	Deadline *FileRequestDeadline `json:"deadline,omitempty"`
 	// Open : Whether or not the file request should be open. If the file
 	// request is closed, it will not accept any file submissions, but it can be
@@ -145,7 +145,7 @@ type FileRequestDeadline struct {
 	// Deadline : The deadline for this file request.
 	Deadline time.Time `json:"deadline"`
 	// AllowLateUploads : If set, allow uploads after the deadline has passed.
-	// These uploads will be marked overdue.
+	// These     uploads will be marked overdue.
 	AllowLateUploads *GracePeriod `json:"allow_late_uploads,omitempty"`
 }
 
@@ -237,7 +237,8 @@ type UpdateFileRequestArgs struct {
 	// files will be sent. For apps with the app folder permission, this will be
 	// relative to the app folder.
 	Destination string `json:"destination,omitempty"`
-	// Deadline : The new deadline for the file request.
+	// Deadline : The new deadline for the file request. Deadlines can only be
+	// set by Professional and Business accounts.
 	Deadline *UpdateFileRequestDeadline `json:"deadline"`
 	// Open : Whether to set this file request as open or closed.
 	Open bool `json:"open,omitempty"`

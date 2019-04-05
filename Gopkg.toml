@@ -23,7 +23,7 @@
 
 [[constraint]]
   name = "github.com/dropbox/dropbox-sdk-go-unofficial"
-  version = "^3.0.0"
+  version = "^5.4.0"
 
 [[constraint]]
   name = "github.com/gorilla/rpc"
