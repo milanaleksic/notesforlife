@@ -1,6 +1,6 @@
 module github.com/milanaleksic/notesforlife/vendor/github.com/dropbox/dropbox-sdk-go-unofficial
 
-go 1.13
+go 1.11
 
 require (
 	github.com/dropbox/dropbox-sdk-go-unofficial v5.4.0+incompatible // indirect
