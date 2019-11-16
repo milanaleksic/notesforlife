@@ -26,3 +26,4 @@ _testmain.go
 
 cmd/main/notesforlife
 cmd/main/notesforlife.toml
+/bin

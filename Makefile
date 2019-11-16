@@ -3,7 +3,7 @@ APP_NAME = $(lastword $(subst /, ,$(PACKAGE)))
 MAIN_APP_DIR = cmd/main
 
 include gomakefiles/common.mk
-include gomakefiles/metalinter.mk
+include gomakefiles/golangcilint.mk
 include gomakefiles/upx.mk
 
 SOURCES := $(shell find $(SOURCEDIR) -name '*.go' \
