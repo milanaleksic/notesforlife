@@ -19,7 +19,7 @@ var (
 )
 
 func main() {
-	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, Version)
+	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, Version, "notes_for_life")
 	if err != nil {
 		log.Fatalf("Failed to activate BADUC integration: %+v", err)
 	}
