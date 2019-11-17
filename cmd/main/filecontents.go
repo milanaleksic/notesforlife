@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 )
-
-var rawContents = regexp.MustCompile(`- \[([^\]]+)\]\(([^\)]+)\)(- _deprecated_)?`)
+const deprecatedFlag = "_deprecated_"
+var rawContents = regexp.MustCompile(fmt.Sprintf(`- \[([^\]]+)\]\(([^\)]+)\)(%s)?`, deprecatedFlag))
 
 type contentsData struct {
 	fileName string
@@ -60,7 +60,7 @@ func (f *fileContentDetails) buildPageFromContents() string {
 	for _, pageName := range sortedPages {
 		details := f.knownPages[pageName]
 		if details.status == availableOnWikiOnly {
-			output.WriteString(fmt.Sprintf("- [%s](%s) _deprecated_\n", details.fileName, details.wikiPageName))
+			output.WriteString(fmt.Sprintf("- [%s](%s) %s\n", details.fileName, details.wikiPageName, deprecatedFlag))
 		} else {
 			output.WriteString(fmt.Sprintf("- [%s](%s)\n", details.fileName, details.wikiPageName))
 		}
