@@ -47,7 +47,7 @@ func (d *Client) GetPage(pagename string) (page string, err error) {
 
 func (d *Client) PutPage(pagename, data string) (success bool, err error) {
 	if d.dryRun {
-		log.Printf("Since dry run is active, update of the page %s will not be done", pagename)
+		log.Printf("Since dry run is active, update of the page %s will not be done. Planned on saving: %s", pagename, data)
 	} else {
 		err = d.client.Call("wiki.putPage", []interface{}{pagename, data}, &success)
 	}
