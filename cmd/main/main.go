@@ -21,7 +21,7 @@ var (
 const PageNameForContents = "dropbox_sync"
 
 func main() {
-	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, Version, "notes_for_life")
+	err := minimal_consul_member.Activate(config.System.InternalPort, config.System.ConsulLocation, "notes_for_life", Version)
 	if err != nil {
 		log.Fatalf("Failed to activate BADUC integration: %+v", err)
 	}
@@ -38,19 +38,19 @@ func main() {
 	client := dropbox.NewClient(config.Dropbox.APIToken, config.Dropbox.Path)
 	go client.Process()
 	app := &mainApp{
-		client:                client,
-		signalChannel:         signalChannel,
-		wiki:                  wiki,
-		contentsData:          newFileContentDetails(),
+		client:        client,
+		signalChannel: signalChannel,
+		wiki:          wiki,
+		contentsData:  newFileContentDetails(),
 	}
 	app.mainLoop()
 }
 
 type mainApp struct {
-	contentsData          *fileContentDetails
-	client                *dropbox.Client
-	signalChannel         chan os.Signal
-	wiki                  *dokuwiki.Client
+	contentsData  *fileContentDetails
+	client        *dropbox.Client
+	signalChannel chan os.Signal
+	wiki          *dokuwiki.Client
 }
 
 func (m *mainApp) mainLoop() {
