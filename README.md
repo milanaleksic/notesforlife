@@ -65,4 +65,3 @@ no binary sync is available
 integration just set `consulLocation` to an empty string otherwise you can't start the application
 - empty files will put the link into the Dokuwiki contents listing page, but no page 
 will be made since Dokuwiki does not allow empty pages.
-- if you are using newer Go (>=1.11) then you need to turn off the modules (don't use `GO111MODULE=on`)
